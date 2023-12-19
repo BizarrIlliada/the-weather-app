@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 100%;
+  background-color: $surface-100;
 }
 
 html,
@@ -26,7 +27,7 @@ body * {
   flex-grow: 1;
   margin: 0 auto;
   padding: 48px;
-  background-color: $surface-100;
+  max-width: 1200px;
 
   @include largeDesktop {
     padding: 36px;
