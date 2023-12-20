@@ -15,8 +15,8 @@ const weatherApi = axios.create({
 // });
 
 export function useWeatherApi() {
-  function loadPlaces(q: string) {
-    return weatherApi.get('/geo/1.0/direct', { params: { q, limit: 5 } })
+  function loadPlaces(q: string, limit: number) {
+    return weatherApi.get('/geo/1.0/direct', { params: { q, limit } })
       .then(res => res.data);
   }
 

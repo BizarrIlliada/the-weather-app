@@ -6,4 +6,6 @@ export default {
   feelsLike: 'Відчувається як: {temp} °C',
   pressure: 'Атмосферний тиск: {pressure} гПа',
   humidity: 'Відносна вологість: {humidity}%',
+
+  confirmDelete: 'Ви впевнені що хочете видалити картку міста {city}?',
 }

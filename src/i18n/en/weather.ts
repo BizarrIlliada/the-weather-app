@@ -6,4 +6,6 @@ export default {
   feelsLike: 'Feels like: {temp} °C',
   pressure: 'Pressure: {pressure} hPa',
   humidity: 'Humidity: {humidity}%',
+
+  confirmDelete: 'Are you sure you want to delete {city} item?',
 }

@@ -32,9 +32,11 @@ import { ref } from 'vue';
 import { useWeatherStore } from '../../stores/weather.store';
 import { useHelpers } from '../../tools/hooks/helpers.hook';
 import { ICity } from '@/types/general.types';
+import { useAlertsStore } from '@/stores/alerts.store';
 
 const { debounce } = useHelpers();
 const weatherStore = useWeatherStore();
+const alertStore = useAlertsStore();
 
 const searchInput = ref('');
 const cities = ref<ICity[]>();
@@ -53,7 +55,13 @@ const debouncedOnInput = debounce(() => {
 }, 500);
 
 function addWeatherCard(lat: number, lon: number) {
-  weatherStore.addWeatherByCoords(lat, lon);
+  if (weatherStore.currentWeathers.length < 5) {
+    weatherStore.addWeatherByCoords(lat, lon);
+  } else {
+    // Add translations
+    alertStore.add({ title: 'Item wasn\'t added!', message: 'Can\'t add more than 5 elements' })
+  }
+
   searchInput.value = '';
   cities.value = [];
 }
@@ -108,6 +116,7 @@ function addWeatherCard(lat: number, lon: number) {
     transition: 0.3s;
     padding: 4px 8px;
     border-radius: 4px;
+    gap: 20px;
 
     &:hover {
       background-color: $primary-100;
@@ -115,7 +124,7 @@ function addWeatherCard(lat: number, lon: number) {
   }
 
   &__button {
-    width: 150px;
+    width: 70px;
   }
 }
 </style>

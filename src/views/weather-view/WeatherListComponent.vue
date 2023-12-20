@@ -19,14 +19,42 @@
           {{ $t('weather.humidity', { humidity: weather.main.humidity }) }}
         </span>
       </div>
+      <MyButton
+        @click="onDelete(weather.id, weather.name)"
+        severity="danger"
+        outlined
+      >
+        {{ $t('shared.delete') }}
+      </MyButton>
     </li>
   </ul>
+  <AppModalWindow
+    :isOpen="isConfirmDeleteOpen"
+    confirmMode
+    @confirm="weatherStore.deleteWeather(deleteItemInfo.id)"
+    @update:isOpen="isConfirmDeleteOpen = $event"
+  >
+    <h4>{{ $t('weather.confirmDelete', { city: deleteItemInfo.name }) }}</h4>
+  </AppModalWindow>
 </template>
 
 <script setup lang="ts">
+import AppModalWindow from '@/components/shared/AppModalWindow.vue';
+import { ref, reactive } from 'vue';
 import { useWeatherStore } from '@/stores/weather.store';
 
 const weatherStore = useWeatherStore();
+
+const isConfirmDeleteOpen = ref(false);
+
+const deleteItemInfo = reactive({} as { id: number, name: string });
+
+function onDelete(id: number, name: string) {
+  isConfirmDeleteOpen.value = true;
+
+  deleteItemInfo.id = id;
+  deleteItemInfo.name = name;
+}
 </script>
 
 <style scoped lang="scss">
@@ -47,6 +75,7 @@ const weatherStore = useWeatherStore();
   &__item-info {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
   }
 }
 </style>
