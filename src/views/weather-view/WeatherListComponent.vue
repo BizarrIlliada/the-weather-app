@@ -1,5 +1,5 @@
 <template>
-  <ul class="weather-list">
+  <ul v-if="weatherStore.currentWeathers.length" class="weather-list">
     <li v-for="weather in weatherStore.currentWeathers" :key="weather.id" class="weather-list__item">
       <h3 class="weather-list__item-title">{{ weather.name }}</h3>
       <div class="weather-list__item-info">
@@ -28,6 +28,9 @@
       </MyButton>
     </li>
   </ul>
+  <p v-else>
+    No data yet.
+  </p>
   <AppModalWindow
     :isOpen="isConfirmDeleteOpen"
     confirmMode
