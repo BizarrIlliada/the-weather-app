@@ -8,4 +8,5 @@ export default {
   humidity: 'Відносна вологість: {humidity}%',
 
   confirmDelete: 'Ви впевнені що хочете видалити картку міста {city}?',
+  tempGraph: 'Прогноз температури (°C)',
 }

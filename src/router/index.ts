@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 import WeatherPage from '../views/weather-view/WeatherPage.vue';
 import WeatherListComponent from '@/views/weather-view/WeatherListComponent.vue';
+import FavoritesListComponent from '@/views/weather-view/FavoritesListComponent.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,11 +16,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Weather List',
         component: WeatherListComponent,
       },
-      // {
-      //   path: 'favorite',
-      //   name: 'Favorites',
-      //   component: CityWeatherCardComponent,
-      // }
+      {
+        path: 'favorites',
+        name: 'Favorites List',
+        component: FavoritesListComponent,
+      }
     ],
   },
   {

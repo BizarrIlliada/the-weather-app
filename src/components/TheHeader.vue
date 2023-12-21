@@ -12,7 +12,7 @@
             </router-link>
           </li>
           <li class="app-header__nav-item">
-            <router-link class="app-header__nav-link" :to="{ name: '' }">
+            <router-link class="app-header__nav-link" :to="{ name: 'Favorites List' }">
               {{ $t('favorite') }}
             </router-link>
           </li>
@@ -71,5 +71,10 @@ import AppLangSelector from './shared/AppLangSelector.vue';
       color: $surface-900;
     }
   }
+}
+
+.router-link-active {
+  color: $surface-900;
+  text-decoration: underline;
 }
 </style>

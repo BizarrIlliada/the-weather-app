@@ -3,11 +3,13 @@ import { useWeatherApi } from '@/api/weather.api';
 
 import { useAlertsStore } from './alerts.store';
 
-import { IWeather } from '@/types/general.types';
+import { IWeather, IForecastItem } from '@/types/general.types';
 
 const {
   loadPlaces,
   loadWeather,
+  loadForecast,
+  // loadDailyForecast,
 } = useWeatherApi();
 
 export const useWeatherStore = defineStore('weatherStore', {
@@ -27,7 +29,7 @@ export const useWeatherStore = defineStore('weatherStore', {
         .catch(err => Promise.reject(err));
     },
 
-    addWeatherByCoords( lat: number, lon: number) {
+    addWeatherByCoords(lat: number, lon: number) {
       return loadWeather(lat, lon)
         .then(data => {
           console.log(data);
@@ -43,8 +45,45 @@ export const useWeatherStore = defineStore('weatherStore', {
         .catch(err => Promise.reject(err));
     },
 
+    getForecastByCoords(lat: number, lon: number) {
+      return loadForecast(lat, lon)
+        .then(data => {
+          console.log(data.list);
+
+          const result: { time: string, temp: number }[] = [];
+
+          data.list.forEach((item: IForecastItem) => {
+            result.push({ time: item.dt_txt, temp: item.main.temp })
+          });
+
+          return result;
+        })
+        .catch(err => Promise.reject(err));
+    },
+
+    // getDailyForecastByCoords(lat: number, lon: number) {
+    //   return loadDailyForecast(lat, lon)
+    //     .then(data => { console.log(data) })
+    //     .catch(err => Promise.reject(err));
+    // },
+
     deleteWeather(id: number) {
       this.currentWeathers = this.currentWeathers.filter(weather => weather.id !== id);
-    }
+    },
+
+    toggleFavorite(id: number) {
+      const currentWeather = this.currentWeathers.find(weather => weather.id === id);
+
+      if (currentWeather) {
+        currentWeather.isFavorite = !currentWeather.isFavorite;
+        const favoriteIndex = this.favoriteWeathers.findIndex(weather => weather.id === id);
+
+        if (favoriteIndex !== -1) {
+          this.favoriteWeathers.splice(favoriteIndex, 1);
+        } else {
+          this.favoriteWeathers.unshift(currentWeather);
+        }
+      }
+    },
   },
 })

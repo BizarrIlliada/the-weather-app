@@ -1,6 +1,6 @@
 <template>
   <section class="weather-page">
-    <div class="weather-page__search">
+    <div v-if="$route.name === 'Weather List'" class="weather-page__search">
       <SearchCityComponent />
     </div>
 

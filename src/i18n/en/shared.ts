@@ -3,4 +3,5 @@ export default {
   delete: 'Delete',
   cancel: 'Cancel',
   confirm: 'Confirm',
+  noData: 'No data yet.',
 }

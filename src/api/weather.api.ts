@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const weatherApi = axios.create({
-  baseURL: 'http://api.openweathermap.org',
+  baseURL: 'https://api.openweathermap.org',
   params: {
     appid: 'd60569d6dd5a37c7ba2702692d5c44af',
     // lang: localStorage.getItem('currentLang') !== null ? localStorage.getItem('currentLang') : 'en',
@@ -25,8 +25,21 @@ export function useWeatherApi() {
       .then(res => res.data);
   }
 
+  function loadForecast(lat: number, lon: number, cnt: 1 | 2 | 3 | 4 | 5 = 1) {
+    return weatherApi.get('/data/2.5/forecast', { params: { lat, lon, units: 'metric', cnt: cnt * 8 } })
+      .then(res => res.data);
+  }
+
+  // 30 GBP/month)
+  // function loadDailyForecast(lat: number, lon: number) {
+  //   return weatherApi.get('/data/2.5/forecast/hourly', { params: { lat, lon, units: 'metric', cnt: 24 } })
+  //     .then(res => res.data);
+  // }
+
   return {
     loadPlaces,
     loadWeather,
+    loadForecast,
+    // loadDailyForecast,
   }
 }

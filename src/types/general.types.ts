@@ -10,6 +10,10 @@ export interface ICity {
 export interface IWeather {
   id: number,
   name: string,
+  coord: {
+    lat: number,
+    lon: number,
+  },
   main: {
     temp: number,
     feels_like: number,
@@ -20,6 +24,13 @@ export interface IWeather {
     speed: number,
   },
   isFavorite?: boolean,
+}
+
+export interface IForecastItem {
+  dt_txt: string,
+  main: {
+    temp: number,
+  }
 }
 
 export interface IAlert {
@@ -33,4 +44,3 @@ export interface IAlert {
 export interface IUniqueAlert extends IAlert {
   id: symbol,
 }
-

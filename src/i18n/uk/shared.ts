@@ -3,4 +3,5 @@ export default {
   delete: 'Видалити',
   cancel: 'Скасувати',
   confirm: 'Підтвердити',
+  noData: 'Даних поки немає.',
 }

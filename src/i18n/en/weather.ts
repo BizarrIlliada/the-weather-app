@@ -8,4 +8,5 @@ export default {
   humidity: 'Humidity: {humidity}%',
 
   confirmDelete: 'Are you sure you want to delete {city} item?',
+  tempGraph: 'Forecast of temperature (°C)',
 }
