@@ -25,7 +25,7 @@ export function useWeatherApi() {
       .then(res => res.data);
   }
 
-  function loadForecast(lat: number, lon: number, cnt: 1 | 2 | 3 | 4 | 5 = 1) {
+  function loadForecast(lat: number, lon: number, cnt: 1 | 5 = 1) {
     return weatherApi.get('/data/2.5/forecast', { params: { lat, lon, units: 'metric', cnt: cnt * 8 } })
       .then(res => res.data);
   }

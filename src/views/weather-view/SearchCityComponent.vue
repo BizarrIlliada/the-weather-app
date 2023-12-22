@@ -32,11 +32,9 @@ import { ref } from 'vue';
 import { useWeatherStore } from '../../stores/weather.store';
 import { useHelpers } from '../../tools/hooks/helpers.hook';
 import { ICity } from '@/types/general.types';
-import { useAlertsStore } from '@/stores/alerts.store';
 
 const { debounce } = useHelpers();
 const weatherStore = useWeatherStore();
-const alertStore = useAlertsStore();
 
 const searchInput = ref('');
 const cities = ref<ICity[]>();

@@ -48,6 +48,7 @@ function onDelete(id: number, name: string) {
   &__item {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     background-color: $surface-100;
     border: 1px solid $surface-300;
     border-radius: 10px;

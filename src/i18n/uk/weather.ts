@@ -9,4 +9,5 @@ export default {
 
   confirmDelete: 'Ви впевнені що хочете видалити картку міста {city}?',
   tempGraph: 'Прогноз температури (°C)',
+  day: '0 днів | {count} день | {count} дні | {count} днів',
 }

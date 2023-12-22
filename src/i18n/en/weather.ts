@@ -9,4 +9,5 @@ export default {
 
   confirmDelete: 'Are you sure you want to delete {city} item?',
   tempGraph: 'Forecast of temperature (°C)',
+  day: '1 day | {count} days',
 }

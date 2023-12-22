@@ -68,8 +68,8 @@ export const useWeatherStore = defineStore('weatherStore', {
       }
     },
 
-    getForecastByCoords(lat: number, lon: number) {
-      return loadForecast(lat, lon)
+    getForecastByCoords(lat: number, lon: number, cnt: 1 | 5 = 1) {
+      return loadForecast(lat, lon, cnt)
         .then(data => {
           console.log(data.list);
 

@@ -21,15 +21,16 @@ const weatherStore = useWeatherStore();
 onMounted(async () => {
   // * * * * * Detecting and adding user's city * * * * * //
   // dev
-  // const ip = (await axios.get('https://httpbin.org/ip')).data.origin;
-  // const myLocation = (await axios.get('http://ip-api.com/json/' + ip)).data.city;
+  const ip = (await axios.get('https://httpbin.org/ip')).data.origin;
+  const myLocation = (await axios.get('http://ip-api.com/json/' + ip)).data.city;
 
   // prod
-  const myLocation = (await axios.get('https://geo.ipify.org/api/v2/country,city', {
-    params: {
-      apiKey: 'at_z5VVfcLdcvpZd3FzjTy6b7sfwkuSy',
-    }
-  })).data.location.city;
+  // const myLocation = (await axios.get('https://geo.ipify.org/api/v2/country,city', {
+  //   params: {
+  //     apiKey: 'at_z5VVfcLdcvpZd3FzjTy6b7sfwkuSy',
+  //   }
+  // })).data.location.city;
+
   const { lat, lon } = (await weatherStore.getPlacesInfo(myLocation, 1))[0];
   weatherStore.addWeatherByCoords(lat, lon);
 

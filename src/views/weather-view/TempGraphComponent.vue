@@ -1,6 +1,10 @@
 <template>
   <div class="temp-graph">
     <canvas class="temp-graph__graph" ref="chartCanvas"></canvas>
+    <div class="temp-graph__buttons">
+      <MyButton @click="toggleForecast(1)" severity="primary" :outlined="!singleDayMode">{{ $t('weather.day', 1) }}</MyButton>
+      <MyButton @click="toggleForecast(5)" severity="primary" :outlined="singleDayMode">{{ $t('weather.day', 5) }}</MyButton>
+    </div>
   </div>
 </template>
 
@@ -10,6 +14,7 @@ import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 
 import { useWeatherStore } from '@/stores/weather.store';
+import { watch } from 'vue';
 
 const weatherStore = useWeatherStore();
 
@@ -20,7 +25,7 @@ const props = defineProps<{
   },
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 Chart.register(...registerables);
 let chartInstance: Chart | null = null;
@@ -28,16 +33,19 @@ let chartInstance: Chart | null = null;
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 
 const forecastList = ref<{ temp: number, time: string }[]>([]);
+const singleDayMode = ref(true);
 const labels = ref<string[]>([]);
 const data = ref<number[]>([]);
 
 let resizeHandler: () => void;
 
-async function createChart() {
+function createChart() {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
   if (chartCanvas.value) {
     const ctx = chartCanvas.value.getContext('2d');
-
-    forecastList.value = await weatherStore.getForecastByCoords(props.coords.lat, props.coords.lon);
 
     forecastList.value.forEach((forecast => {
       const date = new Date(forecast.time);
@@ -73,7 +81,23 @@ async function createChart() {
   }
 }
 
+async function resetForecast(days: 1 | 5) {
+  forecastList.value = await weatherStore.getForecastByCoords(props.coords.lat, props.coords.lon, days);
+  labels.value = [];
+  data.value = [];
+
+  createChart();
+}
+
+async function toggleForecast(days: 1 | 5) {
+  await resetForecast(days);
+
+  singleDayMode.value = !singleDayMode.value;
+}
+
 onMounted(async () => {
+  forecastList.value = await weatherStore.getForecastByCoords(props.coords.lat, props.coords.lon);
+
   createChart();
 
   resizeHandler = () => {
@@ -90,6 +114,10 @@ onUnmounted(() => {
 
   window.removeEventListener('resize', resizeHandler);
 });
+
+watch(locale, () => {
+  resetForecast(singleDayMode.value ? 1 : 5);
+});
 </script>
 
 <style scoped lang="scss">
@@ -98,6 +126,12 @@ onUnmounted(() => {
 
   @include tablet {
     width: 99%;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
   }
 }
 </style>
