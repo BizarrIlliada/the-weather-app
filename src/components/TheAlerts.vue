@@ -9,6 +9,7 @@
       :message="alert.message"
       :time="alert.time"
       :sticky="alert.sticky"
+      :translatable="alert.translatable"
     />
   </TransitionGroup>
 </template>

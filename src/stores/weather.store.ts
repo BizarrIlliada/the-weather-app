@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { useWeatherApi } from '@/api/weather.api';
 
+import { useWeatherApi } from '@/api/weather.api';
 import { useAlertsStore } from './alerts.store';
 
 import { IWeather, IForecastItem } from '@/types/general.types';
@@ -41,14 +41,14 @@ export const useWeatherStore = defineStore('weatherStore', {
         return loadWeather(lat, lon)
           .then(data => {
             if (this.currentWeathers.some(weather => weather.id === data.id)) {
-              useAlertsStore().add({ title: 'Item wasn\'t added', message: 'It\'s in the list already!', severity: 'warn' });
+              useAlertsStore().add({ title: 'weather.itemWasntAdded', message: 'weather.elementAlreadyExist', severity: 'warn', translatable: true });
             } else {
               this.currentWeathers.unshift(data);
             }
           })
           .catch(err => Promise.reject(err));
       } else {
-        useAlertsStore().add({ title: 'Item wasn\'t added to cities list!', message: 'Allowed to add only 5 items!', severity: 'warn' });
+        useAlertsStore().add({ title: 'weather.itemWasntAdded', message: 'weather.listIsFull', severity: 'warn', translatable: true });
       }
     },
 
@@ -57,14 +57,14 @@ export const useWeatherStore = defineStore('weatherStore', {
         return loadWeather(lat, lon)
           .then(data => {
             if (this.favoriteWeathers.some(weather => weather.id === data.id)) {
-              useAlertsStore().add({ title: 'Item wasn\'t added', message: 'It\'s in the list of favorite cities already!', severity: 'warn' });
+              useAlertsStore().add({ title: 'weather.itemWasntAddedToFavorite', message: 'weather.elementAlreadyExist', severity: 'warn', translatable: true });
             } else {
               this.favoriteWeathers.unshift(data);
             }
           })
           .catch(err => Promise.reject(err));
       } else {
-        useAlertsStore().add({ title: 'Item wasn\'t added to favorite list!', message: 'Allowed to add only 5 items!', severity: 'warn' });
+        useAlertsStore().add({ title: 'weather.itemWasntAddedToFavorite', message: 'weather.listIsFull', severity: 'warn', translatable: true });
       }
     },
 

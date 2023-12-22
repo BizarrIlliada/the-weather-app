@@ -39,6 +39,7 @@ export interface IAlert {
   title?: string,
   sticky?: boolean,
   message: string,
+  translatable?: boolean,
 }
 
 export interface IUniqueAlert extends IAlert {

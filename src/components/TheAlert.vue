@@ -5,10 +5,10 @@
     @mouseleave="onMouseLeave"
   >
     <h6 v-if="title" class="alert__title">
-      {{ title }}
+      {{ translatable ? $t(title) : title }}
     </h6>
     <p class="alert__message">
-      {{ message }}
+      {{ translatable ? $t(message) : message }}
     </p>
     <img @click="alertsStore.close(index)" src="../assets/icons/UI/close.svg" class="alert__close" />
   </div>

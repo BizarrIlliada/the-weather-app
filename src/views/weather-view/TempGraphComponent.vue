@@ -128,6 +128,10 @@ watch(locale, () => {
     width: 99%;
   }
 
+  &__graph {
+    margin-bottom: 20px;
+  }
+
   &__buttons {
     display: flex;
     justify-content: center;

@@ -27,6 +27,7 @@ const weatherStore = useWeatherStore();
   
   &__item {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     background-color: $surface-100;
     border: 1px solid $surface-300;
