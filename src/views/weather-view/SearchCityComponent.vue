@@ -55,12 +55,7 @@ const debouncedOnInput = debounce(() => {
 }, 500);
 
 function addWeatherCard(lat: number, lon: number) {
-  if (weatherStore.currentWeathers.length < 5) {
-    weatherStore.addWeatherByCoords(lat, lon);
-  } else {
-    // Add translations
-    alertStore.add({ title: 'Item wasn\'t added!', message: 'Can\'t add more than 5 elements' });
-  }
+  weatherStore.addWeatherByCoords(lat, lon);
 
   searchInput.value = '';
   cities.value = [];
