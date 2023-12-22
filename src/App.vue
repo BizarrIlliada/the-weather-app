@@ -30,6 +30,24 @@ onMounted(async () => {
   const { lat, lon } = (await weatherStore.getPlacesInfo(myLocation, 1))[0];
 
   weatherStore.addWeatherByCoords(lat, lon);
+
+  const favoriteCoordsString = localStorage.getItem('favoriteCoords');
+  const favoriteCoords: { lat: number, lon: number }[] = favoriteCoordsString ? JSON.parse(favoriteCoordsString) : [];
+
+  favoriteCoords.forEach(coords => {
+    const { lat, lon } = coords;
+    weatherStore.addWeatherByCoords(lat, lon, true);
+  });
+
+  window.addEventListener('beforeunload', () => {
+    const favoriteCoords = [] as { lat: number, lon: number }[];
+
+    weatherStore.favoriteWeathers.forEach(weather => {
+      favoriteCoords.push({ lat: weather.coord.lat, lon: weather.coord.lon });
+    });
+
+    localStorage.setItem('favoriteCoords', JSON.stringify(favoriteCoords));
+  });
 });
 </script>
 

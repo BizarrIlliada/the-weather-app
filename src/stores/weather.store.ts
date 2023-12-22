@@ -20,7 +20,14 @@ export const useWeatherStore = defineStore('weatherStore', {
     }
   },
 
-  getters: {},
+  getters: {
+    getFavoriteStatus() {
+      return (id: number) => {
+        return this.favoriteWeathers.some(weather => weather.id === id);
+      }
+    },
+
+  },
 
   actions: {
     getPlacesInfo(city: string, limit = 5) {
@@ -29,20 +36,44 @@ export const useWeatherStore = defineStore('weatherStore', {
         .catch(err => Promise.reject(err));
     },
 
-    addWeatherByCoords(lat: number, lon: number) {
+    addWeatherByCoords(lat: number, lon: number, isFavorite = false) {
       return loadWeather(lat, lon)
         .then(data => {
           console.log(data);
 
-          if (this.currentWeathers.some(weather => weather.id === data.id)) {
-            console.log('Its already added');
-            useAlertsStore().add({ title: 'Item wasn\'t added', message: 'It\'s in the list already!', severity: 'warn' });
-          } else {
-            this.currentWeathers.unshift(data);
+          if (!isFavorite) {
+            if (this.currentWeathers.some(weather => weather.id === data.id)) {
+              console.log('Its already added');
+              useAlertsStore().add({ title: 'Item wasn\'t added', message: 'It\'s in the list already!', severity: 'warn' });
+            } else {
+              this.currentWeathers.unshift(data);
+            }
+          } else if (isFavorite) {
+            if (this.currentWeathers.some(weather => weather.id === data.id)) {
+              this.favoriteWeathers.unshift(data);
+            } else {
+              this.currentWeathers.unshift(data);
+              this.favoriteWeathers.unshift(data);
+            }
           }
 
         })
         .catch(err => Promise.reject(err));
+    },
+
+    addFavoriteWeatherByCoords(lat: number, lon: number) {
+      if (this.favoriteWeathers.length < 5) {
+        return loadWeather(lat, lon)
+          .then(data => {
+            if (this.favoriteWeathers.some(weather => weather.id === data.id)) {
+              useAlertsStore().add({ title: 'Item wasn\'t added', message: 'It\'s in the list already!', severity: 'warn' });
+            } else {
+              this.favoriteWeathers.unshift(data);
+            }
+          })
+      } else {
+        useAlertsStore().add({ title: 'Item wasn\'t added to favorite list!', message: 'Allowed to add only 5 items!', severity: 'warn' });
+      }
     },
 
     getForecastByCoords(lat: number, lon: number) {
@@ -75,7 +106,6 @@ export const useWeatherStore = defineStore('weatherStore', {
       const currentWeather = this.currentWeathers.find(weather => weather.id === id);
 
       if (currentWeather) {
-        currentWeather.isFavorite = !currentWeather.isFavorite;
         const favoriteIndex = this.favoriteWeathers.findIndex(weather => weather.id === id);
 
         if (favoriteIndex !== -1) {

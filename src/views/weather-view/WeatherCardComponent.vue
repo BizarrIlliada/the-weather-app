@@ -1,5 +1,5 @@
 <template>
-  <MyCard :class="['weather-card', weather.isFavorite ? 'weather-card--favorite' : '']">
+  <MyCard :class="['weather-card', isFavorite ? 'weather-card--favorite' : '']">
     <h3 class="weather-card__title">{{ weather.name }}</h3>
     <span class="weather-card__temp">
       {{ $t('weather.temperature', { temp: weather.main.temp.toFixed() }) }}
@@ -34,7 +34,7 @@
         @click="weatherStore.toggleFavorite(weather.id)"
         outlined
       >
-        <img v-if="weather.isFavorite" src="../../assets//icons//UI/starGold.svg" alt="Star Gold">
+        <img v-if="isFavorite" src="../../assets//icons//UI/starGold.svg" alt="Star Gold">
         <img v-else src="../../assets//icons//UI/starGray.svg" alt="Star Gray">
       </MyButton>
     </div>
@@ -42,18 +42,21 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue';
+import { defineProps } from 'vue';
 import { useWeatherStore } from '@/stores/weather.store';
 import { IWeather } from '@/types/general.types';
+import { computed } from 'vue';
 
-withDefaults(defineProps<{
+const props = defineProps<{
   weather: IWeather,
   inFavoriteList?: boolean,
-}>(), {
-  inFavoriteList: false,
-});
+}>();
 
 const weatherStore = useWeatherStore();
+
+const isFavorite = computed(() => {
+  return weatherStore.getFavoriteStatus(props.weather.id);
+})
 </script>
 
 <style scoped lang="scss">

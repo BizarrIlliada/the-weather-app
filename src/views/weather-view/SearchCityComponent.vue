@@ -59,7 +59,7 @@ function addWeatherCard(lat: number, lon: number) {
     weatherStore.addWeatherByCoords(lat, lon);
   } else {
     // Add translations
-    alertStore.add({ title: 'Item wasn\'t added!', message: 'Can\'t add more than 10 elements' })
+    alertStore.add({ title: 'Item wasn\'t added!', message: 'Can\'t add more than 5 elements' });
   }
 
   searchInput.value = '';
