@@ -3,7 +3,7 @@
     <MyCard
       class="app-modal__body"
       v-click-outside="{ handler: closeModal, isShown: isOpen }"
-      >
+    >
       <div class="app-modal__content">
         <slot>
           <h4>

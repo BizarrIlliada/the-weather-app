@@ -34,7 +34,7 @@ export const useWeatherStore = defineStore('weatherStore', {
       return loadPlaces(city, limit)
         .then(data => data)
         .catch(err => Promise.reject(err));
-    },
+    }, 
 
     addWeatherByCoords(lat: number, lon: number) {
       if (this.currentWeathers.length < 5) {
