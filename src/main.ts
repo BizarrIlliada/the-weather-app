@@ -11,7 +11,7 @@ import { globalComponents } from './components/global';
 const app = createApp(App);
 
 globalComponents.forEach(component => {
-  app.component(component.name, component);
+  app.component(component.name as string, component);
 });
 
 import { clickOutside } from './tools/directives';

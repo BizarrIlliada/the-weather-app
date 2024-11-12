@@ -3,7 +3,7 @@ import axios from 'axios';
 const weatherApi = axios.create({
   baseURL: 'https://api.openweathermap.org',
   params: {
-    appid: 'd60569d6dd5a37c7ba2702692d5c44af',
+    appid: process.env.VUE_APP_OPENWEATHERMAP_APP_KEY,
     // lang: localStorage.getItem('currentLang') !== null ? localStorage.getItem('currentLang') : 'en',
   },
 });

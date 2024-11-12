@@ -17,7 +17,7 @@
           class="my-dropdown__option"
           @click="selectOption(option)"
         >
-          {{ option.label }}c
+          {{ option.label }}
         </div>
       </div>
     </transition>
